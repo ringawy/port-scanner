@@ -23,25 +23,27 @@ def get_banner(get):
 def scan_port(_ipaddress, _port):
     try:
         sock = socket.socket()
-        sock.settimeout(0.8)
+        sock.settimeout(0.2)
         sock.connect((_ipaddress, _port))
         try:
+            service_name=socket.getservbyport(_port)
             banner = get_banner(sock)
-            print('[+] port ' + str(_port) + ' is open : ' + str(banner.decode().strip('\n')))
+            print('[+] port ' + str(_port) + ' service name ' + service_name + ' is open : ' + str(banner.decode().strip('\n')))
         except:
-            print('[+] port ' + str(_port) + ' is open ')
+            print('[+] port ' + str(_port) + ' service name ' + service_name + ' is open ')
     except:
         pass
 
-#receve host from user
-targets = input('[+] Enter target/s without (http) To scan(multiply targets with (,): ')
-#receve start port from user
-port_start = int(input('Enter port start :'))
-#receve end port from user
-port_end = int(input('Enter port end :'))
-#check target input indevdual target or multi target
-if ',' in targets:
-    for ip_addr in targets.split(','):
-        scan(ip_addr.strip(' '), port_start, port_end)
-else:
-    scan(targets, port_start, port_end)
+if __name__ == "__main__":
+    #receve host from user
+    targets = input('[+] Enter target/s without (http) To scan(multiply targets with (,): ')
+    #receve start port from user
+    port_start = int(input('Enter port start :'))
+    #receve end port from user
+    port_end = int(input('Enter port end :'))
+    #check target input indevdual target or multi target
+    if ',' in targets:
+        for ip_addr in targets.split(','):
+            scan(ip_addr.strip(' '), port_start, port_end)
+    else:
+        scan(targets, port_start, port_end)
